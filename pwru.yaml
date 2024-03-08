@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pwru
+spec:
+  containers:
+  - image: docker.io/cilium/pwru:latest
+    name: pwru
+    volumeMounts:
+    - mountPath: /sys/kernel/debug
+      name: sys-kernel-debug
+    securityContext:
+      privileged: true
+    command: ["/bin/sh"]
+    args: ["-c", "sleep infinity"]
+  volumes:
+  - name: sys-kernel-debug
+    hostPath:
+      path: /sys/kernel/debug
+      type: DirectoryOrCreate
+  hostNetwork: true
+  hostPID: true
